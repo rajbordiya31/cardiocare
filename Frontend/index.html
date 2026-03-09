@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioCare – Dr. Narendra Bordiya | Senior Cardiologist</title>
+  <meta name="description"
+    content="CardioCare – Advanced Heart Care with Compassion. Book an appointment with Dr. Narendra Bordiya, Senior Cardiologist with 3+ years of experience." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            primary: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              300: '#93c5fd',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              800: '#1e3a8a',
+              900: '#1e3270',
+            },
+            cardinal: {
+              50: '#fff0f0',
+              100: '#ffe0e0',
+              500: '#e63946',
+              600: '#c1121f',
+              700: '#9d0208',
+            },
+            cream: '#fafbff',
+          },
+          animation: {
+            'fade-up': 'fadeUp 0.7s ease forwards',
+            'fade-in': 'fadeIn 0.6s ease forwards',
+            'heartbeat': 'heartbeat 1.5s ease-in-out infinite',
+            'float': 'float 3s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            heartbeat: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '14%': { transform: 'scale(1.15)' },
+              '28%': { transform: 'scale(1)' },
+              '42%': { transform: 'scale(1.1)' },
+              '56%': { transform: 'scale(1)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-12px)' },
+            },
+          },
+          boxShadow: {
+            'card': '0 4px 24px -4px rgba(30,58,138,0.10)',
+            'card-hover': '0 16px 48px -8px rgba(30,58,138,0.20)',
+            'glow': '0 0 40px rgba(59,130,246,0.25)',
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS for things Tailwind doesn't cover inline -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="font-sans bg-white text-gray-800 antialiased">
+
+  <!-- Root for React -->
+  <div id="root"></div>
+
+  <!-- React 18 + Babel (CDN) -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- App entry -->
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+
+</html>

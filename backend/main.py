@@ -64,6 +64,23 @@ def create_appointment(appointment: AppointmentCreate, db: Session = Depends(get
     db.refresh(db_appointment)
     return db_appointment
 
+@app.get("/appointments/status")
+def check_appointment_status(phone: str, appointment_id: int, db: Session = Depends(get_db)):
+    appointment = db.query(Appointment).filter(
+        Appointment.id == appointment_id,
+        Appointment.phone == phone
+    ).first()
+    
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found. Please check your ID and Phone number.")
+    
+    return {
+        "id": appointment.id,
+        "name": appointment.name,
+        "status": appointment.status,
+        "date": appointment.date
+    }
+
 # --- ADMIN ENDPOINTS ---
 
 @app.post("/token", response_model=Token)
@@ -73,7 +90,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     user = db.query(AdminUser).filter(func.lower(AdminUser.username) == form_data.username.lower()).first()
     
     if not user:
-        print(f"⚠️ Login failed: User '{form_data.username}' not found.")
+        print(f"Login failed: User '{form_data.username}' not found.")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
@@ -81,7 +98,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         )
         
     if not auth.verify_password(form_data.password, user.hashed_password):
-        print(f"⚠️ Login failed: Password mismatch for user '{user.username}'.")
+        print(f"Login failed: Password mismatch for user '{user.username}'.")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",

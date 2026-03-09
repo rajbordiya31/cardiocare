@@ -1,0 +1,228 @@
+/* ============================================================
+   CardioCare – Global Styles
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body { margin: 0; overflow-x: hidden; }
+
+/* ── Navbar ─────────────────────────────────────────────── */
+.navbar-blur {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255,255,255,0.88);
+  border-bottom: 1px solid rgba(59,130,246,0.12);
+}
+
+/* ── Hero gradient ───────────────────────────────────────── */
+.hero-gradient {
+  background: linear-gradient(135deg,
+    #eff6ff 0%,
+    #dbeafe 40%,
+    #fffbe6 100%
+  );
+}
+
+.hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ── Section gradient dividers ───────────────────────────── */
+.section-alt { background: linear-gradient(180deg, #f8faff 0%, #fff 100%); }
+
+/* ── Service cards ───────────────────────────────────────── */
+.service-card {
+  transition: transform 0.32s cubic-bezier(.23,1,.32,1),
+              box-shadow 0.32s cubic-bezier(.23,1,.32,1);
+}
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 56px -12px rgba(30,58,138,0.18);
+}
+.service-icon-wrap {
+  transition: transform 0.25s ease;
+}
+.service-card:hover .service-icon-wrap {
+  transform: scale(1.12) rotate(-3deg);
+}
+
+/* ── Why Choose Us ───────────────────────────────────────── */
+.why-card {
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+.why-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px -8px rgba(30,58,138,0.15);
+}
+
+/* ── Testimonial cards ───────────────────────────────────── */
+.testimonial-card {
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px -8px rgba(30,58,138,0.15);
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 0.75rem 2rem;
+  transition: box-shadow 0.25s ease, transform 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 4px 18px -4px rgba(59,130,246,0.55);
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px -6px rgba(59,130,246,0.6);
+}
+
+.btn-emergency {
+  background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 0.75rem 2rem;
+  transition: box-shadow 0.25s ease, transform 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 4px 18px -4px rgba(230,57,70,0.55);
+  border: none;
+  cursor: pointer;
+}
+.btn-emergency:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px -6px rgba(230,57,70,0.6);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #1d4ed8;
+  border: 2px solid #1d4ed8;
+  border-radius: 50px;
+  padding: 0.65rem 1.8rem;
+  font-weight: 600;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+.btn-outline:hover {
+  background: #1d4ed8;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ── Form inputs ─────────────────────────────────────────── */
+.form-input {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  background: #fff;
+}
+.form-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+/* ── Map placeholder ─────────────────────────────────────── */
+.map-placeholder {
+  background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  font-size: 4rem;
+}
+
+/* ── Star rating ─────────────────────────────────────────── */
+.star { color: #f59e0b; }
+
+/* ── Section animations ──────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Pulse ring (hero badge) ─────────────────────────────── */
+@keyframes pulseRing {
+  0%   { transform: scale(0.9); opacity: 0.7; }
+  70%  { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(0.9); opacity: 0; }
+}
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: rgba(59,130,246,0.25);
+  animation: pulseRing 2s cubic-bezier(.455,.03,.515,.955) infinite;
+}
+
+/* ── ECG line decoration ─────────────────────────────────── */
+@keyframes ecgScroll {
+  0%   { background-position: 0 0; }
+  100% { background-position: -400px 0; }
+}
+.ecg-line {
+  height: 3px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='3'%3E%3Cpolyline points='0,1.5 30,1.5 40,0 50,3 60,0 70,1.5 80,1.5 110,1.5 120,0 130,3 140,0 150,1.5 400,1.5' stroke='%233b82f6' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") repeat-x center;
+  animation: ecgScroll 3.5s linear infinite;
+  opacity: 0.7;
+}
+
+/* ── Mobile menu ─────────────────────────────────────────── */
+.mobile-menu {
+  transition: max-height 0.35s ease, opacity 0.3s ease;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+.mobile-menu.open {
+  max-height: 420px;
+  opacity: 1;
+}
+
+/* ── Stat counter badge ──────────────────────────────────── */
+.stat-badge {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+  border-radius: 20px;
+  color: white;
+}
+
+/* ── Footer gradient ─────────────────────────────────────── */
+.footer-gradient {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+
+/* ── Responsive image ────────────────────────────────────── */
+.doctor-img {
+  border-radius: 32px;
+  object-fit: cover;
+  box-shadow: 0 32px 64px -16px rgba(30,58,138,0.28);
+}
