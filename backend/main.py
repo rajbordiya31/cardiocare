@@ -68,7 +68,9 @@ def create_appointment(appointment: AppointmentCreate, db: Session = Depends(get
 
 @app.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = db.query(AdminUser).filter(AdminUser.username == form_data.username).first()
+    # Convert username to lowercase for case-insensitive login
+    username_lower = form_data.username.lower()
+    user = db.query(AdminUser).filter(AdminUser.username == username_lower).first()
     if not user or not auth.verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -110,12 +112,15 @@ class AdminSetup(BaseModel):
 # --- UTILITY ENDPOINT (To create first admin) ---
 @app.post("/setup-admin", status_code=201)
 def setup_admin(admin: AdminSetup, db: Session = Depends(get_db)):
+    # Convert username to lowercase for consistency
+    username_lower = admin.username.lower()
+    
     # Check if any admin exists
     if db.query(AdminUser).first():
         raise HTTPException(status_code=400, detail="Admin already exists")
     
     hashed_pw = auth.get_password_hash(admin.password)
-    new_admin = AdminUser(username=admin.username, hashed_password=hashed_pw)
+    new_admin = AdminUser(username=username_lower, hashed_password=hashed_pw)
     db.add(new_admin)
     db.commit()
-    return {"detail": f"Admin {admin.username} created"}
+    return {"detail": f"Admin {username_lower} created"}
