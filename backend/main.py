@@ -68,15 +68,26 @@ def create_appointment(appointment: AppointmentCreate, db: Session = Depends(get
 
 @app.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    # Convert username to lowercase for case-insensitive login
-    username_lower = form_data.username.lower()
-    user = db.query(AdminUser).filter(AdminUser.username == username_lower).first()
-    if not user or not auth.verify_password(form_data.password, user.hashed_password):
+    from sqlalchemy import func
+    # Case-insensitive search: compare lower-case username from input with lower-case username in DB
+    user = db.query(AdminUser).filter(func.lower(AdminUser.username) == form_data.username.lower()).first()
+    
+    if not user:
+        print(f"⚠️ Login failed: User '{form_data.username}' not found.")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
+        
+    if not auth.verify_password(form_data.password, user.hashed_password):
+        print(f"⚠️ Login failed: Password mismatch for user '{user.username}'.")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        
     access_token = auth.create_access_token(data={"sub": user.username})
     return {"access_token": access_token, "token_type": "bearer"}
 
