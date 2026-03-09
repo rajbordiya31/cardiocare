@@ -26,6 +26,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def read_root():
+    return {"status": "online", "message": "CardioCare API is running"}
+
 # Pydantic Schemas
 class AppointmentBase(BaseModel):
     name: str
