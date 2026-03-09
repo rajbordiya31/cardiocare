@@ -6,11 +6,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Database URL from environment variable or default to a local string for development
-# Format: postgresql://user:password@host:port/dbname
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:root%401234@localhost:5432/cardiocare")
+# Database URL from environment variable
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+if not SQLALCHEMY_DATABASE_URL:
+    # Fallback for local development only
+    SQLALCHEMY_DATABASE_URL = "postgresql://postgres:root%401234@localhost:5432/cardiocare"
+    print("⚠️ WARNING: DATABASE_URL not set, falling back to localhost.")
+
+# Render provides the database URL, so we create the engine normally
+try:
+    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+except Exception as e:
+    print(f"❌ CRITICAL: Failed to create database engine: {e}")
+    raise
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
