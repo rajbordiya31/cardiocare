@@ -31,6 +31,8 @@ class Appointment(Base):
     name = Column(String, index=True)
     phone = Column(String)
     date = Column(Date)
+    preferred_slot = Column(String, nullable=True)  # "Morning" or "Evening"
+    confirmed_time = Column(String, nullable=True)  # e.g., "10:30 AM"
     symptoms = Column(Text, nullable=True)
     status = Column(String, default="pending")  # pending, confirmed, completed
 

@@ -534,7 +534,7 @@ function WhyCard({ icon, title, desc, color, delay }) {
 // ── Appointment Form ──────────────────────────────────────────
 function Appointment() {
   const ref = useReveal();
-  const [form, setForm] = useState({ name: '', phone: '', date: '', symptoms: '' });
+  const [form, setForm] = useState({ name: '', phone: '', date: '', preferred_slot: 'Morning', symptoms: '' });
   const [submittedData, setSubmittedData] = useState(null); // Changed from boolean to store data
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -623,17 +623,32 @@ function Appointment() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Preferred Date *</label>
-                <input
-                  className="form-input"
-                  type="date"
-                  name="date"
-                  value={form.date}
-                  onChange={handle}
-                  required
-                  min={new Date().toISOString().split('T')[0]}
-                />
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Preferred Date *</label>
+                  <input
+                    className="form-input"
+                    type="date"
+                    name="date"
+                    value={form.date}
+                    onChange={handle}
+                    required
+                    min={new Date().toISOString().split('T')[0]}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Preferred Session *</label>
+                  <select
+                    className="form-input"
+                    name="preferred_slot"
+                    value={form.preferred_slot}
+                    onChange={handle}
+                    required
+                  >
+                    <option value="Morning">Morning (9 AM - 12 PM)</option>
+                    <option value="Evening">Evening (3 PM - 6 PM)</option>
+                  </select>
+                </div>
               </div>
 
               <div>

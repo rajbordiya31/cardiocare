@@ -35,6 +35,7 @@ class AppointmentBase(BaseModel):
     name: str
     phone: str
     date: date
+    preferred_slot: str = None  # "Morning" or "Evening"
     symptoms: str = None
 
 class AppointmentCreate(AppointmentBase):
@@ -42,10 +43,12 @@ class AppointmentCreate(AppointmentBase):
 
 class AppointmentUpdate(BaseModel):
     status: str
+    confirmed_time: str = None
 
 class AppointmentOut(AppointmentBase):
     id: int
     status: str
+    confirmed_time: str = None
 
     class Config:
         from_attributes = True
@@ -78,7 +81,9 @@ def check_appointment_status(phone: str, appointment_id: int, db: Session = Depe
         "id": appointment.id,
         "name": appointment.name,
         "status": appointment.status,
-        "date": appointment.date
+        "date": appointment.date,
+        "preferred_slot": appointment.preferred_slot,
+        "confirmed_time": appointment.confirmed_time
     }
 
 # --- ADMIN ENDPOINTS ---
@@ -119,6 +124,9 @@ def update_appointment_status(appointment_id: int, update: AppointmentUpdate, db
         raise HTTPException(status_code=404, detail="Appointment not found")
     
     db_appointment.status = update.status
+    if update.confirmed_time:
+        db_appointment.confirmed_time = update.confirmed_time
+        
     db.commit()
     db.refresh(db_appointment)
     return db_appointment

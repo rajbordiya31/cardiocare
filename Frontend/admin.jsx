@@ -131,7 +131,7 @@ function Dashboard({ token, onLogout }) {
         fetchAppointments();
     }, [token]);
 
-    const updateStatus = async (id, status) => {
+    const updateStatus = async (id, status, confirmed_time = null) => {
         try {
             const response = await fetch(`${API_URL}/appointments/${id}`, {
                 method: 'PATCH',
@@ -139,10 +139,10 @@ function Dashboard({ token, onLogout }) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ status }),
+                body: JSON.stringify({ status, confirmed_time }),
             });
             if (response.ok) {
-                setAppointments(appointments.map(a => a.id === id ? { ...a, status } : a));
+                setAppointments(appointments.map(a => a.id === id ? { ...a, status, confirmed_time: confirmed_time || a.confirmed_time } : a));
             }
         } catch (error) {
             alert('Failed to update status.');
@@ -243,7 +243,12 @@ function Dashboard({ token, onLogout }) {
                                             </td>
                                             <td>
                                                 <div className="font-semibold text-blue-800">{new Date(a.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
-                                                <div className="text-xs text-slate-400 mt-1 uppercase tracking-tighter">Preferred Date</div>
+                                                <div className="text-sm font-bold text-slate-600 mt-1 uppercase tracking-tight">Preferred: {a.preferred_slot || 'Any'}</div>
+                                                {a.confirmed_time && (
+                                                    <div className="mt-1 text-sm bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 font-bold inline-block">
+                                                        ⏱️ Visit Time: {a.confirmed_time}
+                                                    </div>
+                                                )}
                                             </td>
                                             <td>
                                                 <span className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${a.status === 'confirmed' ? 'bg-green-100 text-green-700' :
@@ -257,8 +262,11 @@ function Dashboard({ token, onLogout }) {
                                                 <div className="flex items-center justify-end gap-2">
                                                     {a.status !== 'confirmed' && (
                                                         <button
-                                                            onClick={() => updateStatus(a.id, 'confirmed')}
-                                                            className="px-3 py-1.5 bg-green-600 text-white rounded-lg text-xs font-bold hover:bg-green-700 transition"
+                                                            onClick={() => {
+                                                                const time = prompt(`Preferred Session: ${a.preferred_slot}\n\nEnter confirmed visit time for ${a.name}:`, a.preferred_slot === 'Morning' ? '10:00 AM' : '04:00 PM');
+                                                                if (time) updateStatus(a.id, 'confirmed', time);
+                                                            }}
+                                                            className="px-3 py-1.5 bg-green-600 text-white rounded-lg text-xs font-bold hover:bg-green-700 transition shadow-sm"
                                                         >
                                                             Confirm
                                                         </button>
