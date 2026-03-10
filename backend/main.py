@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 from datetime import date
 from pydantic import BaseModel
 
@@ -35,20 +35,20 @@ class AppointmentBase(BaseModel):
     name: str
     phone: str
     date: date
-    preferred_slot: str = None  # "Morning" or "Evening"
-    symptoms: str = None
+    preferred_slot: Optional[str] = None  # "Morning" or "Evening"
+    symptoms: Optional[str] = None
 
 class AppointmentCreate(AppointmentBase):
     pass
 
 class AppointmentUpdate(BaseModel):
     status: str
-    confirmed_time: str = None
+    confirmed_time: Optional[str] = None
 
 class AppointmentOut(AppointmentBase):
     id: int
     status: str
-    confirmed_time: str = None
+    confirmed_time: Optional[str] = None
 
     class Config:
         from_attributes = True
